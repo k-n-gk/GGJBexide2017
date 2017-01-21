@@ -15,7 +15,7 @@ AWSActor::AWSActor()
 // Called when the game starts or when spawned
 void AWSActor::BeginPlay()
 {
-    HttpRequest();
+    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("output : %s"), L"ログの内容");
 }
@@ -28,15 +28,15 @@ void AWSActor::Tick( float DeltaTime )
 }
 
 /*Http call*/
-void AWSActor::HttpRequest()
+void AWSActor::HttpRequest(FString url)
 {
     TSharedRef<IHttpRequest> Request = Http->CreateRequest();
     Request->OnProcessRequestComplete().BindUObject(this, &AWSActor::OnResponseReceived);
     //This is the url on which to process the request
-    Request->SetURL("https://google.co.jp");
+    Request->SetURL(url);
     Request->SetVerb("GET");
     Request->SetHeader(TEXT("User-Agent"), "X-UnrealEngine-Agent");
-//    Request->SetHeader("Content-Type", TEXT("application/json"));
+    Request->SetHeader("Content-Type", TEXT("application/json"));
     Request->ProcessRequest();
 }
 

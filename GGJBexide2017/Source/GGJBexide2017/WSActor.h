@@ -18,7 +18,7 @@ public:
     
     /* The actual HTTP call */
     UFUNCTION()
-    void HttpRequest();
+    void HttpRequest(FString url);
     
     /*Assign this function to call when the GET request processes sucessfully*/
     void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
