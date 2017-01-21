@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "Runtime/Online/HTTP/Public/Http.h"
 #include "Runtime/Online/WebSockets/Public/IWebSocket.h"
+#include "Runtime/Online/WebSockets/Public/WebSocketsModule.h"
 #include "WSActor.generated.h"
 
 UCLASS()
@@ -14,6 +15,7 @@ class GGJBEXIDE2017_API AWSActor : public AActor
 
 private:
     FHttpModule* Http;
+    FWebSocketsModule* WebSocket;
 
 public:
     
