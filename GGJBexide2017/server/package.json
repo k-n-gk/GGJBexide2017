@@ -10,6 +10,7 @@
     "express": "*",
     "socket.io": "*",
     "websocket.io": "*",
-    "nodemon": "*"
+    "nodemon": "*",
+    "underscore":"*"
   }
 }
