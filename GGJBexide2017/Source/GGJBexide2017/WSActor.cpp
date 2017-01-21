@@ -16,7 +16,7 @@ AWSActor::AWSActor()
 void AWSActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	UE_LOG(LogTemp, Warning, TEXT("output : %s"), L"ログの内容");
 }
 
 // Called every frame
