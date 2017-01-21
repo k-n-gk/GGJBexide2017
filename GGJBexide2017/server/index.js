@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 
+var underscore = require('underscore');
+
 var port = process.env.PORT || 3000;
 
 //サーバーの立ち上げ
@@ -36,6 +38,27 @@ wss.on('connection', function (ws) {
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
+});
+
+var players = {}
+
+app.get('/playstart', function(req, res){
+  players[req.query.player] = {}
+  res.sendStatus(200);
+});
+
+app.get('/position', function(req, res){
+  var params = JSON.parse(req.query.info) || {};
+  console.log(params);
+  result = {}
+  if(params.player == 1){
+    result = underscore.extend({player: 2}, players[2] || {})
+    players[1] = {x: params.x, y: params.y,z: params.z,zombie: params.zombie || {}}
+  } else {
+    result = underscore.extend({player: 1}, players[1] || {})
+    players[2] = {x: params.x, y: params.y,z: params.z,zombie: params.zombie || {}}
+  }
+  res.send(result);
 });
 
 //サーバーと接続されると呼ばれる
