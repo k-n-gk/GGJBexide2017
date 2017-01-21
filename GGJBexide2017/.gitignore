@@ -60,3 +60,20 @@ Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+
+server/node_modules
+server/bower_components
+server/lib-cov
+*.seed
+*.log
+*.out
+*.pid
+server/npm-debug.log
+*~
+*#
+.DS_STORE
+.netbeans
+server/nbproject
+server/.idea
+server/.node_history
