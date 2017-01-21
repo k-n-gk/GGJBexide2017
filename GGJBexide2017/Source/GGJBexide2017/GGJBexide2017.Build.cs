@@ -6,7 +6,7 @@ public class GGJBexide2017 : ModuleRules
 {
 	public GGJBexide2017(TargetInfo Target)
 	{
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Http", "Json", "JsonUtilities"});
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Http", "Json", "JsonUtilities", "WebSockets"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

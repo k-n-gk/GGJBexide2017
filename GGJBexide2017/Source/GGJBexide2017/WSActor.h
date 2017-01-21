@@ -4,6 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "Runtime/Online/HTTP/Public/Http.h"
+#include "Runtime/Online/WebSockets/Public/IWebSocket.h"
 #include "WSActor.generated.h"
 
 UCLASS()
