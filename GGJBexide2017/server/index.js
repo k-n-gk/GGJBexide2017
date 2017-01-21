@@ -48,17 +48,55 @@ app.get('/playstart', function(req, res){
 });
 
 app.get('/position', function(req, res){
-  var params = JSON.parse(req.query.info) || {};
-  console.log(params);
-  result = {}
+  var json = req.query.info || "{}";
+  var params = JSON.parse(json);
+  var result = {}
   if(params.player == 1){
-    result = underscore.extend({player: 2}, players[2] || {})
-    players[1] = {x: params.x, y: params.y,z: params.z,zombie: params.zombie || {}}
+    var temp = players[2] || {}
+    result = underscore.extend({player: 2}, temp.position || {})
+    players[1] = {position: {x: params.x, y: params.y,z: params.z,zombie: params.zombie || {}}}
   } else {
-    result = underscore.extend({player: 1}, players[1] || {})
-    players[2] = {x: params.x, y: params.y,z: params.z,zombie: params.zombie || {}}
+    var temp = players[1] || {}
+    result = underscore.extend({player: 1}, temp.position || {})
+    players[2] = {position: {x: params.x, y: params.y,z: params.z,zombie: params.zombie || {}}}
   }
   res.send(result);
+});
+
+app.get('/shoot', function(req, res){
+  var params = req.query || {};
+  var temp = players[params.player] || {}
+  var prev = temp.hit_status || {hit_zombie_id: []}
+  var hit_status = {hit_player: params.hit_player, hit_zombie_id: prev.hit_zombie_id.push(params.hit_zombie_id)}
+
+  players[params.player] = {hit_status: hit_status}
+  res.sendStatus(200);
+});
+
+app.get('/player_action', function(req, res){
+  var params = req.query || {};
+  var result = {}
+  if(params.player == 1){
+    var temp = players[2] || {}
+    result = underscore.extend({player: 2}, temp.hit_status || {})
+    result = underscore.extend(result, temp.sonar || {})
+    players[2] = {hit_status: {}, sonar: {}}
+  } else {
+    var temp = players[1] || {}
+    result = underscore.extend({player: 1}, temp.hit_status || {})
+    result = underscore.extend(result, temp.sonar || {})
+    players[1] = {hit_status: {}, sonar: {}}
+  }
+  res.send(result);
+});
+
+app.get('/sonar', function(req, res){
+  var params = req.query || {};
+  var temp = players[params.player] || {}
+  var sonar = {sonar_position_x: params.x, sonar_position_y: params.y, sonar_position_z: params.z}
+
+  players[params.player] = {sonar: sonar}
+  res.sendStatus(200);
 });
 
 //サーバーと接続されると呼ばれる
