@@ -10,14 +10,11 @@ AWSActor::AWSActor()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
     Http = &FHttpModule::Get();
-    WebSocket = &FWebSocketsModule::Get();
 }
 
 // Called when the game starts or when spawned
 void AWSActor::BeginPlay()
 {
-    TSharedPtr<IWebSocket> ws = WebSocket->CreateWebSocket("ws://taptappun.cloudapp.net:3000/");
-    ws->Connect();
     HttpRequest();
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("output : %s"), L"ログの内容");
