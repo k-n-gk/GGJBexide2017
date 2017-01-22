@@ -26,23 +26,43 @@ void AWSActor::Tick( float DeltaTime )
 }
 
 void AWSActor::PlayStart(int32 player){
-//    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
+    HttpRequest(FString::Printf(TEXT("http://taptappun.cloudapp.net:3000/playstart?player=%d"),player));
 }
 
 void AWSActor::SelfPosition(int32 player, FVector position){
-//    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
+    TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
+    JsonObject->SetNumberField("player", player);
+    JsonObject->SetNumberField("x", position.X);
+    JsonObject->SetNumberField("y", position.X);
+    JsonObject->SetNumberField("z", position.X);
+    
+    FString OutputString;
+    TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&OutputString);
+    if(FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer)){
+            HttpRequest(FString::Printf(TEXT("http://taptappun.cloudapp.net:3000/position?info=%s"), *OutputString));
+    }
 }
 
 void AWSActor::ReceiveAction(int32 player){
-//    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
+    HttpRequest(FString::Printf(TEXT("http://taptappun.cloudapp.net:3000/player_action?player=%d"),player));
 }
 
 void AWSActor::Shoot(int32 player, int32 hit_player, int32 hit_zombie_id){
-//    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
+    HttpRequest(FString::Printf(TEXT("http://taptappun.cloudapp.net:3000/player_action?player=%d&hit_player=%d&hit_zombie_id=%d"),player, hit_player, hit_zombie_id));
 }
 
 void AWSActor::Soner(int32 player, FVector position){
-//    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
+    TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
+    JsonObject->SetNumberField("player", player);
+    JsonObject->SetNumberField("sonar_position_x", position.X);
+    JsonObject->SetNumberField("sonar_position_y", position.X);
+    JsonObject->SetNumberField("sonar_position_z", position.X);
+    
+    FString OutputString;
+    TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&OutputString);
+    if(FJsonSerializer::Serialize(JsonObject.ToSharedRef(), Writer)){
+        HttpRequest(FString::Printf(TEXT("http://taptappun.cloudapp.net:3000/sonar?info=%s"), *OutputString));
+    }
 }
 
 /*Http call*/
