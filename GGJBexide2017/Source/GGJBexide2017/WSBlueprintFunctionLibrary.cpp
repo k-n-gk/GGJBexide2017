@@ -10,3 +10,13 @@ FString UWSBlueprintFunctionLibrary::HelloWorld()
 {
     return FString("Hello World!!");
 }
+
+FString UWSBlueprintFunctionLibrary::HelloWorldInstance()
+{
+    return FString("Hello World!!");
+}
+
+void UWSBlueprintFunctionLibrary::CallDelegate()
+{
+    OnEventDispather.Broadcast(); // イベントディスパッチャーをCallする
+}
