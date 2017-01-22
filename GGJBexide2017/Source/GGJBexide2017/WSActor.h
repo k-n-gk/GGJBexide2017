@@ -19,10 +19,25 @@ public:
     
     /* The actual HTTP call */
     UFUNCTION(BlueprintCallable, Category="WSActor")
-    void SendServer();
+    void PlayStart(int32 player);
+    
+    UFUNCTION(BlueprintCallable, Category="WSActor")
+    void SelfPosition(int32 player, FVector position);
 
+    UFUNCTION(BlueprintCallable, Category="WSActor")
+    void ReceiveAction(int32 player);
+
+    UFUNCTION(BlueprintCallable, Category="WSActor")
+    void Shoot(int32 player, int32 hit_player, int32 hit_zombie_id);
+
+    UFUNCTION(BlueprintCallable, Category="WSActor")
+    void Soner(int32 player, FVector position);
+    
     UFUNCTION(BlueprintImplementableEvent, Category="WSActor")
-    void CallbackResult(const FString& result);
+    void OnActionResult(int32 action, int32 player, int32 hit_player, int32 hit_zombie_id, float x, float y, float z);
+    
+    UFUNCTION(BlueprintImplementableEvent, Category="WSActor")
+    void OnPositionResult(int32 player, float x, float y, float z);
     
     /*Assign this function to call when the GET request processes sucessfully*/
     void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);

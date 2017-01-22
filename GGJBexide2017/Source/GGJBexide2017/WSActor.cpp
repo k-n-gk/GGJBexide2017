@@ -25,8 +25,24 @@ void AWSActor::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 }
 
-void AWSActor::SendServer(){
-    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
+void AWSActor::PlayStart(int32 player){
+//    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
+}
+
+void AWSActor::SelfPosition(int32 player, FVector position){
+//    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
+}
+
+void AWSActor::ReceiveAction(int32 player){
+//    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
+}
+
+void AWSActor::Shoot(int32 player, int32 hit_player, int32 hit_zombie_id){
+//    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
+}
+
+void AWSActor::Soner(int32 player, FVector position){
+//    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
 }
 
 /*Http call*/
@@ -48,19 +64,38 @@ void AWSActor::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Resp
     FString stringResponse = Response->GetContentAsString();
     UE_LOG(LogTemp, Warning, TEXT("%s"), *stringResponse);
     
-    CallbackResult(*stringResponse);
-//    GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Green, stringResponse);
-
     //Create a pointer to hold the json serialized data
-//    TSharedPtr<FJsonObject> JsonObject;
+    TSharedPtr<FJsonObject> JsonObject;
     
     //Create a reader pointer to read the json data
-//    TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
+    TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
     
     //Deserialize the json data given Reader and the actual object to deserialize
-//    if (FJsonSerializer::Deserialize(Reader, JsonObject))
-//    {
+    if (FJsonSerializer::Deserialize(Reader, JsonObject))
+    {
+        int32 action = JsonObject->GetIntegerField(TEXT("action"));
+        if(action == 2){
+            OnPositionResult(
+                JsonObject->GetIntegerField(TEXT("player")),
+                static_cast<float>(JsonObject->GetNumberField(TEXT("x"))),
+                static_cast<float>(JsonObject->GetNumberField(TEXT("y"))),
+                static_cast<float>(JsonObject->GetNumberField(TEXT("z")))
+            );
+        }else{
+            OnActionResult(
+                           action,
+                           JsonObject->GetIntegerField(TEXT("player")),
+                           JsonObject->GetIntegerField(TEXT("hit_player")),
+                           JsonObject->GetIntegerField(TEXT("hit_zombie_id")),
+                           static_cast<float>(JsonObject->GetNumberField(TEXT("sonar_position_x"))),
+                           static_cast<float>(JsonObject->GetNumberField(TEXT("sonar_position_y"))),
+                           static_cast<float>(JsonObject->GetNumberField(TEXT("sonar_position_z")))
+                           );
+        }
         //Output it to the engine
-//        GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Green, FString::FromInt(recievedInt));
-//    }
+        //        GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Green, FString::FromInt(recievedInt));
+    }
+    
+    
+//    GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Green, stringResponse);
 }
