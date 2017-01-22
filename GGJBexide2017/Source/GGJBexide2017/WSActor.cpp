@@ -15,7 +15,6 @@ AWSActor::AWSActor()
 // Called when the game starts or when spawned
 void AWSActor::BeginPlay()
 {
-    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("output : %s"), L"ログの内容");
 }
@@ -24,7 +23,10 @@ void AWSActor::BeginPlay()
 void AWSActor::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+}
 
+void AWSActor::SendServer(){
+    HttpRequest("http://taptappun.cloudapp.net:3000/playstart?player=1");
 }
 
 /*Http call*/
@@ -45,6 +47,8 @@ void AWSActor::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Resp
 {
     FString stringResponse = Response->GetContentAsString();
     UE_LOG(LogTemp, Warning, TEXT("%s"), *stringResponse);
+    
+    CallbackResult(*stringResponse);
 //    GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Green, stringResponse);
 
     //Create a pointer to hold the json serialized data

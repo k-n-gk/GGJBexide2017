@@ -13,12 +13,16 @@ class GGJBEXIDE2017_API AWSActor : public AActor
 
 private:
     FHttpModule* Http;
+    void HttpRequest(FString url);
 
 public:
     
     /* The actual HTTP call */
-    UFUNCTION()
-    void HttpRequest(FString url);
+    UFUNCTION(BlueprintCallable, Category="WSActor")
+    void SendServer();
+
+    UFUNCTION(BlueprintImplementableEvent, Category="WSActor")
+    void CallbackResult(const FString& result);
     
     /*Assign this function to call when the GET request processes sucessfully*/
     void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
