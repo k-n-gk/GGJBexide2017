@@ -33,8 +33,8 @@ void AWSActor::SelfPosition(int32 player, FVector position){
     TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
     JsonObject->SetNumberField("player", player);
     JsonObject->SetNumberField("x", position.X);
-    JsonObject->SetNumberField("y", position.X);
-    JsonObject->SetNumberField("z", position.X);
+    JsonObject->SetNumberField("y", position.Y);
+    JsonObject->SetNumberField("z", position.Z);
     
     FString OutputString;
     TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&OutputString);
@@ -55,8 +55,8 @@ void AWSActor::Soner(int32 player, FVector position){
     TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject());
     JsonObject->SetNumberField("player", player);
     JsonObject->SetNumberField("sonar_position_x", position.X);
-    JsonObject->SetNumberField("sonar_position_y", position.X);
-    JsonObject->SetNumberField("sonar_position_z", position.X);
+    JsonObject->SetNumberField("sonar_position_y", position.Y);
+    JsonObject->SetNumberField("sonar_position_z", position.Z);
     
     FString OutputString;
     TSharedRef<TJsonWriter<>> Writer = TJsonWriterFactory<>::Create(&OutputString);
