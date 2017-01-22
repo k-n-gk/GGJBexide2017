@@ -53,11 +53,11 @@ app.get('/position', function(req, res){
   var result = {}
   if(params.player == 1){
     var temp = players[2] || {}
-    result = underscore.extend({player: 2}, temp.position || {})
+    result = underscore.extend({player: 2, action: 2}, temp.position || {})
     players[1] = {position: {x: params.x, y: params.y,z: params.z,zombie: params.zombie || {}}}
   } else {
     var temp = players[1] || {}
-    result = underscore.extend({player: 1}, temp.position || {})
+    result = underscore.extend({player: 1, action: 2}, temp.position || {})
     players[2] = {position: {x: params.x, y: params.y,z: params.z,zombie: params.zombie || {}}}
   }
   res.send(result);
@@ -78,12 +78,12 @@ app.get('/player_action', function(req, res){
   var result = {}
   if(params.player == 1){
     var temp = players[2] || {}
-    result = underscore.extend({player: 2}, temp.hit_status || {})
+    result = underscore.extend({player: 2, action: 4}, temp.hit_status || {})
     result = underscore.extend(result, temp.sonar || {})
     players[2] = {hit_status: {}, sonar: {}}
   } else {
     var temp = players[1] || {}
-    result = underscore.extend({player: 1}, temp.hit_status || {})
+    result = underscore.extend({player: 1, action: 4}, temp.hit_status || {})
     result = underscore.extend(result, temp.sonar || {})
     players[1] = {hit_status: {}, sonar: {}}
   }
@@ -91,7 +91,8 @@ app.get('/player_action', function(req, res){
 });
 
 app.get('/sonar', function(req, res){
-  var params = req.query || {};
+  var json = req.query.info || "{}";
+  var params = JSON.parse(json);
   var temp = players[params.player] || {}
   var sonar = {sonar_position_x: params.x, sonar_position_y: params.y, sonar_position_z: params.z}
 
